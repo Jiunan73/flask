@@ -1,9 +1,55 @@
 <html>
   <head>
-    <title>Video Streaming Demonstration</title>
+    <title>WiFi Controlled Car (hophd.com)</title>
   </head>
   <body>
-    <h1>Video Streaming Demonstration</h1>
-    <img src="{{ url_for('video_feed') }}">
+    <center>
+ <script>
+function sendcmd(val){
+
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.open("GET","/"+val,true);
+xmlhttp.send();
+
+}
+
+</script>
+ 
+ 
+<h1>WiFi Controlled Car (hophd.com)</h1>
+ 
+  	<a href='/go'>Go</a> . 
+      <a href='/back'>Back</a> . 
+      <a href='/stop'>Stop</a> . 
+      <a href='/right'>Turn Right</a> . 
+      <a href='/left'>Turn Left</a>
+ 	<button type="button" onclick="sendup()">test</button>
+		<input type="button" value="UP" 
+		onmousedown="sendcmd('go')" 
+		onmouseup="sendcmd('stop')"
+		onmouseout="sendcmd('stop')">
+	<input type="button" value="Down" 
+		onmousedown="sendcmd('back')" 
+		onmouseup="sendcmd('stop')"
+		onmouseout="sendcmd('stop')">
+<input type="button" value="Right" 
+		onmousedown="sendcmd('right')" 
+		onmouseup="sendcmd('stop')"
+		onmouseout="sendcmd('stop')">
+<input type="button" value="Left" 
+		onmousedown="sendcmd('left')" 
+		onmouseup="sendcmd('stop')"
+		onmouseout="sendcmd('stop')">
+      <img src="{{ url_for('video_feed') }}">
+     
+ 
+ 
+ 
+<hr>
+ 
+ 
+ 
+ 
+    </center>
   </body>
 </html>
