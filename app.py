@@ -11,9 +11,10 @@ from flask import Flask, render_template, Response
 #    from camera import Camera
 
 # Raspberry Pi camera module (requires picamera package)
-from camera_pi import Camera
+from camera_opencv import Camera
+from camera_opencv2 import Camera as Camera2
 import RPi.GPIO as gpio
- 
+
 gpio.setwarnings(False)
 gpio.setmode(gpio.BCM)
 gpio.setup(14, gpio.OUT)
@@ -54,20 +55,28 @@ def index():
     return render_template('index.html')
 
 
-def gen(camera):
+def gen0(camera):
     """Video streaming generator function."""
+    
     while True:
         frame = camera.get_frame()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-
-@app.route('/video_feed')
-def video_feed():
+@app.route('/video_feed0')
+def video_feed0():
     """Video streaming route. Put this in the src attribute of an img tag."""
-    return Response(gen(Camera()),
+    a=Camera
+
+    print("Video streaming=",a.video_source)
+    return Response(gen0(a()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
+@app.route('/video_feed2')
+def video_feed2():
+    """Video streaming route. Put this in the src attribute of an img tag.""" 
+    b=Camera2
+    print("Video streaming=",b.video_source)
+    return Response(gen0(b()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
