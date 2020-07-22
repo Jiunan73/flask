@@ -88,7 +88,7 @@ class BaseCamera(object):
     @classmethod
     def _thread(cls):
         """Camera background thread."""
-        print('Starting camera thread.')
+        #print('Starting camera thread.')
         frames_iterator = cls.frames()
         for frame in frames_iterator:
             BaseCamera.frame = frame

@@ -4,7 +4,7 @@ from base_camera2 import BaseCamera
 
 
 class Camera(BaseCamera):
-    video_source = 2
+    video_source = 0
 
     def __init__(self):
         if os.environ.get('OPENCV_CAMERA_SOURCE'):
@@ -14,7 +14,9 @@ class Camera(BaseCamera):
     @staticmethod
     def set_video_source(source):
         Camera.video_source = source
-
+    @staticmethod
+    def get_sensor():
+        return 0 
     @staticmethod
     def frames():
         camera = cv2.VideoCapture(Camera.video_source)
