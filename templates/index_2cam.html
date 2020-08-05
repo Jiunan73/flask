@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <title>WiFi Controlled Car</title>
+ 
+<style type="text/css">
+
+#IMG_1{
+　position:absolute;
+　top:10px;
+　left:10px;
+　width:400px;
+　z-index:1;
+}
+#IMG_2{
+　position:absolute;
+　top:30px;
+　left:30px;
+　width:150px;
+　z-index:2;
+  background-color:#6DA9E7;
+}
+
+</style> 
+</head>
+  <body>
+    <center>
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery-3.1.1.min.js') }}"></script>
+ <script>
+function sendcmd(val){
+
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.open("GET","/"+val,true);
+xmlhttp.send();
+
+}
+
+</script>
+ <script type=text/javascript>
+  $(function() {
+    $('#photo').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}
+	
+	
+    });
+$('#photo').bind('mouseup', function(e) {
+	sendcmd("stop");
+	
+    });
+$('#photo').bind('mouseout', function(e) {
+		sendcmd("stop");
+	
+    });
+   $('#IMG_1').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}
+	
+	
+    });
+$('#IMG_1').bind('mouseup', function(e) {
+	sendcmd("stop");
+	
+    });
+$('#IMG_1').bind('mouseout', function(e) {
+		sendcmd("stop");
+	
+    });
+  });
+</script>
+ 
+<h1>WiFi Controlled Car</h1>
+ 
+    <img src="{{ url_for('video_feed2') }}" width="400"><br>
+    <div>
+    <div><img src="{{ url_for('video_feed0') }}" width="400" id='IMG_1'></div>
+    <div><img id="photo" src="{{ url_for('static',filename='vectors.png') }}"  width="200" ></div>
+    <div>
+ 
+
+ 
+<hr>
+ 
+ 
+ 
+ 
+    </center>
+  </body>
+</html>

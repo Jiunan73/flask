@@ -1,0 +1,147 @@
+<html>
+  <head>
+    <title>WiFi Controlled Car</title>
+ 
+<style type="text/css">
+
+#IMG_1{
+　position:absolute;
+　top:10px;
+　left:10px;
+　width:400px;
+　z-index:1;
+}
+#IMG_2{
+　position:absolute;
+　top:30px;
+　left:30px;
+　width:150px;
+　z-index:2;
+  background-color:#6DA9E7;
+}
+
+</style> 
+</head>
+  <body>
+    <center>
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery-3.1.1.min.js') }}"></script>
+ <script>
+function sendcmd(val){
+
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.open("GET","/"+val,true);
+xmlhttp.send();
+
+}
+
+</script>
+ <script type=text/javascript>
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+$(document).ready(function(){
+	setInterval(function(){get_url();},5000);
+
+});
+function get_url(){
+	
+   	   $.getJSON($SCRIPT_ROOT + '/ir_cam', {
+      	   a: $('#a').val(),
+       	   b: $('#b').val()
+      }, function(data) {
+        $("#ir_cam_img").attr('src',data.result);
+      });
+      return false;
+}
+  $(function() {
+    $('#photo').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}
+	
+	
+    });
+ $('#calculate').bind('click', function() {
+	alert($SCRIPT_ROOT + '/_add_numbers');
+   	   $.getJSON($SCRIPT_ROOT + '/ir_cam', {
+      	   a: $('#a').val(),
+       	   b: $('#b').val()
+      }, function(data) {
+	alert(data.result);
+        $("#ir_cam_img").attr('src',data.result);
+      });
+      return false;
+    });
+$('#photo').bind('mouseup', function(e) {
+	sendcmd("stop");
+	
+    });
+$('#photo').bind('mouseout', function(e) {
+		sendcmd("stop");
+	
+    });
+   $('#IMG_1').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}
+	
+	
+    });
+$('#IMG_1').bind('mouseup', function(e) {
+	sendcmd("stop");
+	
+    });
+$('#IMG_1').bind('mouseout', function(e) {
+		sendcmd("stop");
+	
+    });
+  });
+</script>
+ 
+<h1>WiFi Controlled Car</h1>
+    <div><img src="#" width="400" id="ir_cam_img"><img src="{{ url_for('static',filename='web1.jpg') }}" width="400"></div>
+    <div><img src="{{ url_for('static',filename='web1.jpg') }}" width="400">
+    <img src="{{ url_for('static',filename='web1.jpg') }}" width="400">
+    <img src="{{ url_for('static',filename='web1.jpg') }}" width="400"><img id="photo" src="{{ url_for('static',filename='vectors.png') }}"  width="200" ></div>
+
+ 
+
+<hr>
+ 
+ 
+ 
+ 
+    </center>
+  </body>
+</html>

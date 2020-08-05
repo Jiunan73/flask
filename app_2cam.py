@@ -2,8 +2,8 @@
 from importlib import import_module
 import os
 import time
-from flask import Flask, render_template, Response ,jsonify, request
-import datetime
+from flask import Flask, render_template, Response
+
 # import camera driver
 #if os.environ.get('CAMERA'):
 #    Camera = import_module('camera_' + os.environ['CAMERA']).Camera
@@ -100,19 +100,5 @@ def video_feed2():
     print("Video streaming=",b.video_source)
     return Response(gen2(b()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
-@app.route('/ir_cam')
-def ir_cam():
-    b=os.listdir('static/ir_cam/20200804/AD-HF048-P-192.168.1.20');
-    #filelist.sort()
-    a=sorted(b)
-    datestr=datetime.datetime.now().strftime('%Y%m%d')
-    c='static/ir_cam/'+datestr+'/AD-HF048-P-192.168.1.20/'+a[len(a)-1]
-    print(a[len(a)-1])
-    return jsonify(result=c)
-@app.route('/_add_numbers')
-def add_numbers():
-    a = request.args.get('a', 0, type=int)
-    b = request.args.get('b', 0, type=int)
-    return jsonify(result=a + b)
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
