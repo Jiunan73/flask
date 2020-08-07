@@ -33,7 +33,7 @@ def set_video_source(source):
     print('set_video_source')
     Camera.video_source = source
 class Camera(BaseCamera):
-    video_source = 2
+    video_source = 0
 
     def __init__(self):
         if os.environ.get('OPENCV_CAMERA_SOURCE'):
@@ -49,6 +49,8 @@ class Camera(BaseCamera):
     @staticmethod
     def frames():
         camera = cv2.VideoCapture(Camera.video_source)
+	#camera.set(3,640)
+	#camera.set(4
         if not camera.isOpened():
             raise RuntimeError('Could not start camera.')
         loopcnt=0

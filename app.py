@@ -12,7 +12,12 @@ import datetime
 
 # Raspberry Pi camera module (requires picamera package)
 from camera_opencv import Camera
-from camera_opencv2 import Camera as Camera2
+from camera_opencv1 import Camera as Camera1
+from camera_opencv2  import Camera as Camera2
+from camera_opencv3 import Camera as Camera3
+from showrosmap import Camera as rosmap
+from ircam import Camera as ircam
+from fallcam import Camera as fallcam
 import RPi.GPIO as gpio
 GOPIN=18
 BACKPIN=23
@@ -66,8 +71,8 @@ def gen0(camera):
         for i in range(4):        
             sensor1=camera.get_sensor(i)
             if sensor1 < 10 :
-                print(i)
-                print ("<10cm")
+                #print(i)
+                #print ("<10cm")
                 cnt[i]=cnt[i]+1
                 if cnt > 10 :
                     setio(False, False, False, False)
@@ -79,7 +84,6 @@ def gen0(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 def gen2(camera):
     """Video streaming generator function."""
-    
     while True:
         frame = camera.get_frame()
         #print(camera.get_sensor())
@@ -93,22 +97,46 @@ def video_feed0():
     print("Video streaming=",a.video_source)
     return Response(gen0(a()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/video_feed1')
+def video_feed1():
+    """Video streaming route. Put this in the src attribute of an img tag.""" 
+    time.sleep(5)
+    b=Camera1
+    print("Video streaming=",b.video_source)
+    return Response(gen2(b()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 @app.route('/video_feed2')
 def video_feed2():
+    time.sleep(8)
     """Video streaming route. Put this in the src attribute of an img tag.""" 
     b=Camera2
-    print("Video streaming=",b.video_source)
+    return Response(gen2(b()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/video_feed3')
+def video_feed3():
+    time.sleep(10)
+    """Video streaming route. Put this in the src attribute of an img tag.""" 
+    b=Camera3
+    return Response(gen2(b()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/Showmap')
+def Showmap():
+ 
+    b=rosmap
+   
     return Response(gen2(b()),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 @app.route('/ir_cam')
 def ir_cam():
-    b=os.listdir('static/ir_cam/20200804/AD-HF048-P-192.168.1.20');
-    #filelist.sort()
-    a=sorted(b)
-    datestr=datetime.datetime.now().strftime('%Y%m%d')
-    c='static/ir_cam/'+datestr+'/AD-HF048-P-192.168.1.20/'+a[len(a)-1]
-    print(a[len(a)-1])
-    return jsonify(result=c)
+    b=ircam
+    return Response(gen2(b()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+@app.route('/showfall')
+def showfall():
+    b=fallcam
+    return Response(gen2(b()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
 @app.route('/_add_numbers')
 def add_numbers():
     a = request.args.get('a', 0, type=int)

@@ -1,0 +1,175 @@
+<html>
+  <head>
+    <title>巡檢小車控制系統</title>
+
+<style type="text/css">
+#sitebody{
+　width:600px;
+　margin:0 auto;
+　font-size:13px;
+}
+#header{
+　background-color:#FFD4D4;
+　height:80px;
+　text-align:center;
+　line-height:80px;
+}
+#sidebar_left{
+　background-color:#FFECC9;
+　width:120px;
+　height:400px;
+　text-align:center;
+　line-height:400px;
+　float:left;
+}
+#sidebar_right{
+　background-color:#FFECC9;
+　width:120px;
+　height:400px;
+　text-align:center;
+　line-height:400px;
+　float:right;
+}
+#content{
+　margin-left:120px;
+　margin-right:120px;
+　height:400px;
+　background-color:#F2FFF2;
+　text-align:center;
+　line-height:400px;
+}
+#footer{
+　clear:both;
+　background-color:#FFD4D4;
+　height:80px;
+　text-align:center;
+　line-height:80px;
+}
+</style>
+</head>
+  <body>
+
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery-3.1.1.min.js') }}"></script>
+
+
+ <script>
+function sendcmd(val){
+
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.open("GET","/"+val,true);
+xmlhttp.send();
+
+}
+
+</script>
+ <script type=text/javascript>
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+$(document).ready(function(){
+	
+});
+  $(function() {
+    $('#photo').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}		
+    });
+ $('#calculate').bind('click', function() {
+	alert($SCRIPT_ROOT + '/_add_numbers');
+   	   $.getJSON($SCRIPT_ROOT + '/ir_cam', {
+      	   a: $('#a').val(),
+       	   b: $('#b').val()
+      }, function(data) {
+	alert(data.result);
+        $("#ir_cam_img").attr('src',data.result);
+      });
+      return false;
+    });
+$('#photo').bind('mouseup', function(e) {
+	sendcmd("stop");
+	
+    });
+$('#photo').bind('mouseout', function(e) {
+		sendcmd("stop");
+	
+    });
+   $('#IMG_1').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}
+	
+	
+    });
+$('#IMG_1').bind('mouseup', function(e) {
+	sendcmd("stop");
+	
+    });
+$('#IMG_1').bind('mouseout', function(e) {
+		sendcmd("stop");
+	
+    });
+  });
+</script>
+
+
+
+
+<h1>WiFi Controlled Car</h1>
+
+	
+<div id="sitebody">
+　<div id="header">header</div>
+　<div id="sidebar_left">
+	<img src="{{ url_for('video_feed0') }}" width="400" id='IMG_0'><br>
+	<img src="{{ url_for('video_feed1') }}" width="400" id='IMG_1'><br>
+	<img src="{{ url_for('video_feed2') }}" width="400" id='IMG_2'><br>
+
+</div>
+　<div id="sidebar_right">	
+	<img src="{{ url_for('showfall') }}" width="400" id='rosmap'><br>
+	<img src="{{ url_for('ir_cam') }}" width="400" id='ircam'><br>
+	
+　<div id="content">
+		<img src="{{ url_for('Showmap') }}" width="640" id='rosmap'><br>
+		<img id="photo" src="{{ url_for('static',filename='vectors.png') }}"  width="200" >
+  </div>
+　<div id="footer">footer
+  </div>
+</div>
+ 
+
+
+  </body>
+</html>

@@ -1,123 +1,90 @@
-<html>
-  <head>
-    <title>WiFi Controlled Car</title>
- 
-<style type="text/css">
-
-#IMG_1{
-　position:absolute;
-　top:10px;
-　left:10px;
-　width:400px;
-　z-index:1;
-}
-#IMG_2{
-　position:absolute;
-　top:30px;
-　left:30px;
-　width:150px;
-　z-index:2;
-  background-color:#6DA9E7;
-}
-
-</style> 
-</head>
-  <body>
-    <center>
-<script type=text/javascript src="{{
-  url_for('static', filename='jquery-3.1.1.min.js') }}"></script>
- <script>
-function sendcmd(val){
-
-var xmlhttp=new XMLHttpRequest();
-xmlhttp.open("GET","/"+val,true);
-xmlhttp.send();
-
-}
-
-</script>
- <script type=text/javascript>
-  $(function() {
-    $('#photo').bind('mousedown', function(e) {
-	var offset=$(this).offset();
-	var imgW=$(this).width();
-	var imgH=$(this).height();
-	var X=(e.pageX-offset.left);
-	var Y=(e.pageY-offset.top);
-	
-	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
-	{
-		sendcmd("left");
-	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
-	{
-		sendcmd("right");
-	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
-	{
-		sendcmd("go");
-	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
-	{
-		sendcmd("back");
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=big5" />
+        <title>變形金剛</title>
+        <style type="text/css">
+            body {
+                font-family:Arial; 
+                font-size:20px; 
+                margin:0px; 
+                line-height:100%;
+                text-align:center; 
+                background-color:#CCCCCC;
+            }
+            #container {
+                margin:0 auto; 
+                width:100%; 
+                background-color:#CCCCCC;
+            }
+            #header { 
+                height:50px;
+                background:#009FCC;
+                margin-bottom:5px;
+                padding-top:20px;
+            }
+            #mainContent { overflow:auto; margin-bottom:5px;height:1000px;background-color:#CCCCCC;}
+            #leftbar { float:left; width:420px; background:#000000;height:1000px;padding-top:5px;}
+            #content { 　margin-left:400px;　margin-right:120px;　height:1000px;　background-color:#666666;　text-align:center;　line-height:80%;}
+	    #rightbar { float:right; width:420px; background:#000000;height:1000px;padding-top:5px;}
+            #footer { height:60px; background:#6cf;}
+	  table
+        {
+            border-collapse: collapse;
+            margin: 0 auto;
+            text-align: center;
+	    width:50%;
+        }
+        table td, table th
+        {
+            border: 1px solid #cad9ea;
+            color: #666;
+            height: 30px;
+        }
+        table thead th
+        {
+            background-color: #CCE8EB;
+            width: 100px;
+        }
+        table tr:nth-child(odd)
+        {
+            background: #fff;
+        }
+        table tr:nth-child(even)
+        {
+            background: #F5FAFA;
 	}
-	
-	
-    });
-$('#photo').bind('mouseup', function(e) {
-	sendcmd("stop");
-	
-    });
-$('#photo').bind('mouseout', function(e) {
-		sendcmd("stop");
-	
-    });
-   $('#IMG_1').bind('mousedown', function(e) {
-	var offset=$(this).offset();
-	var imgW=$(this).width();
-	var imgH=$(this).height();
-	var X=(e.pageX-offset.left);
-	var Y=(e.pageY-offset.top);
-	
-	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
-	{
-		sendcmd("left");
-	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
-	{
-		sendcmd("right");
-	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
-	{
-		sendcmd("go");
-	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
-	{
-		sendcmd("back");
-	}
-	
-	
-    });
-$('#IMG_1').bind('mouseup', function(e) {
-	sendcmd("stop");
-	
-    });
-$('#IMG_1').bind('mouseout', function(e) {
-		sendcmd("stop");
-	
-    });
-  });
-</script>
- 
-<h1>WiFi Controlled Car</h1>
- 
-    <img src="{{ url_for('video_feed2') }}" width="400"><br>
-    <div>
-    <div><img src="{{ url_for('video_feed0') }}" width="400" id='IMG_1'></div>
-    <div><img id="photo" src="{{ url_for('static',filename='vectors.png') }}"  width="200" ></div>
-    <div>
- 
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="header">超強變形金剛1號車</div>
+            <div id="mainContent">
+                <div id="leftbar">	
+		<img src="{{ url_for('video_feed0') }}" width="400" id='IMG_0'><br>
+		<img src="{{ url_for('video_feed1') }}" width="400" id='IMG_1'><br>
+		<img src="{{ url_for('video_feed2') }}" width="400" id='IMG_2'><br>
+            </div>
+		<div id="rightbar">	
+		<img src="{{ url_for('ir_cam') }}" width="400" id='ircam'><br>
+		<img src="{{ url_for('video_feed3') }}" width="400" id='IMG_2'><br>
+		<img id="photo" src="{{ url_for('static',filename='vectors.png') }}"  width="350" >
+		</div>
+               
+	   <div id="content">	<img src="{{ url_for('Showmap') }}" width="900" id='rosmap'><br>
+<table id="gradient-style" border="0" summary="Meeting Results">
+<thead>
 
- 
-<hr>
- 
- 
- 
- 
-    </center>
-  </body>
+	<th>time</th>	<th>異常訊息</th>	<th>結案進度</th>	<th>負責人</th></thead>
+	<tr><td>2020-08-01 12:00:00</td>	<td>機台高溫</td>	<td>未結案</td>	<td>林俊安</td></tr>
+	<tr><td>2020-08-01 12:00:00</td>	<td>機台高溫</td>	<td>未結案</td>	<td>林俊安</td></tr>
+	<tr><td>2020-08-01 12:00:00</td>	<td>機台高溫</td>	<td>未結案</td>	<td>林俊安</td></tr>
+	<tr><td>2020-08-01 12:00:00</td>	<td>機台高溫</td>	<td>未結案</td>	<td>林俊安</td></tr>
+</table>
+		</div>
+		
+            </div>
+      
+        </div>
+    </body>
 </html>
