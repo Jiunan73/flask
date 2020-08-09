@@ -1,0 +1,25 @@
+fall 低於60
+
+秀圖 第一個觸發
+
+第二個觸發 強至前進
+
+第三個觸發 手臂前進
+
+
+
+設定SSID L8A
+
+設定ftp
+設定server 
+設定開機要檢查的程序
+ftp.py
+tcpip.py
+app.py
+server.py(udp上傳）
+
+測試上傳ftp
+
+
+
+ftp 上傳
