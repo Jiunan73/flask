@@ -16,7 +16,7 @@ class RosMap():
     def frames():
         while True:
             # read current frame
-            img = cv2.imread('web1.jpg')
+            img = cv2.imread('map-hectorslam.pgm')
             #print 'Camera.video_source=',Camera.video_source
             # encode as a jpeg image and return it
             yield cv2.imencode('.jpg', img)[1].tobytes()

@@ -12,17 +12,22 @@ class Camera(BaseCamera):
     @staticmethod
     def frames():
         while True:
-            time.sleep(1)
-            f=open('map.txt', 'r')
-            s=f.readline()
-            k=s.split(',',2)
-            f.close()
-            try :
-                X=int(k[0])
-                Y=int(k[1])
+
+	    time.sleep(1)
+       	    f=open('map.txt', 'r')
+	    s=f.readline()
+	    f.close()
+	    try:
+	        k=s.split(',',2)
+		print(k[0],k[1])
+           
+                X=int(float(k[0])*100+2048)
+                Y=int(float(k[1])*100+2048)
             except:
                 X=0
                 Y=0
-            Camera.img=cv2.imread('map.png')
-            cv2.rectangle(Camera.img,(X,Y),(X+20,Y+20),(255,255,0),-1)
+	    print(X,Y)
+	    time.sleep(1)
+            Camera.img=cv2.imread('map.pgm')
+            cv2.rectangle(Camera.img,(X,Y),(X+80,Y+80),(255,255,0),-1)
             yield cv2.imencode('.jpg', Camera.img)[1].tobytes()

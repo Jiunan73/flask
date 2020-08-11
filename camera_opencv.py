@@ -3,8 +3,8 @@ import cv2
 import RPi.GPIO as GPIO
 import time
 from base_camera import BaseCamera
-trigger_pin=[17,22,9,5]
-echo_pin=[27,10,11,6]
+trigger_pin=[17,22,6,19]
+echo_pin=[27,5,13,26]
 sensor_idx=0
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(trigger_pin, GPIO.OUT)
@@ -75,7 +75,7 @@ class Camera(BaseCamera):
             
             loopcnt+=1
             _, img = camera.read()
-            if Camera.sensor[0] > 10:
+            if Camera.sensor[3] > 10:
                 cv2.rectangle(img,(10,85),(80,55),(255,255,255),-1)
             else :
                 cv2.rectangle(img,(10,85),(80,55),(0,0,255),-1)
@@ -88,14 +88,14 @@ class Camera(BaseCamera):
                 cv2.rectangle(img,(10,450),(80,425),(255,255,255),-1)
             else :
                 cv2.rectangle(img,(10,450),(80,425),(0,0,255),-1)
-            if Camera.sensor[3] > 10:
+            if Camera.sensor[0] > 10:
                 cv2.rectangle(img,(550,450),(620,425),(255,255,255),-1)
             else :
                 cv2.rectangle(img,(550,450),(620,425),(0,0,255),-1)
-            cv2.putText(img,sensor_str[0],(10,80),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
+            cv2.putText(img,sensor_str[0],(550,450),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
             cv2.putText(img,sensor_str[1],(550,80),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
             cv2.putText(img,sensor_str[2],(10,450),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
-            cv2.putText(img,sensor_str[3],(550,450),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
+            cv2.putText(img,sensor_str[3],(10,80),cv2.FONT_HERSHEY_SIMPLEX,1,(0,0,0),1,cv2.LINE_AA)
             
             #print 'Camera.video_source=',Camera.video_source
             # encode as a jpeg image and return it

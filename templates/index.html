@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=big5" />
-        <title>變形金剛</title>
+        <title>多功能小車</title>
         <style type="text/css">
             body {
                 font-family:Arial; 
@@ -56,9 +56,45 @@
 	}
         </style>
     </head>
+<script type=text/javascript src="{{
+  url_for('static', filename='jquery-3.1.1.min.js') }}"></script>
+<script>
+function sendcmd(val){
+
+var xmlhttp=new XMLHttpRequest();
+xmlhttp.open("GET","/"+val,true);
+xmlhttp.send();
+
+}
+
+  $(function() {
+    $('#photo').bind('mousedown', function(e) {
+	var offset=$(this).offset();
+	var imgW=$(this).width();
+	var imgH=$(this).height();
+	var X=(e.pageX-offset.left);
+	var Y=(e.pageY-offset.top);
+	if (X < imgW/4 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("left");
+	}else if (X > imgW/4*3 && Y > imgH/4  && Y < imgH/4*3)
+	{
+		sendcmd("right");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y < imgH/4)
+	{
+		sendcmd("go");
+	}else if (X > imgW/4 && X < imgW/4*3  && Y > imgH/4*3)
+	{
+		sendcmd("back");
+	}		
+    });
+  
+  });
+</script>
+
     <body>
         <div id="container">
-            <div id="header">超強變形金剛1號車</div>
+            <div id="header" style="font-size:35px" >阿姆斯壯2號車</div>
             <div id="mainContent">
                 <div id="leftbar">	
 		<img src="{{ url_for('video_feed0') }}" width="400" id='IMG_0'><br>
@@ -69,6 +105,7 @@
 		<img src="{{ url_for('ir_cam') }}" width="400" id='ircam'><br>
 		<img src="{{ url_for('video_feed3') }}" width="400" id='IMG_2'><br>
 		<img id="photo" src="{{ url_for('static',filename='vectors.png') }}"  width="350" >
+		<input type=button value='Reset' id='RST' onclick="sendcmd('stop')" >
 		</div>
                
 	   <div id="content">	<img src="{{ url_for('Showmap') }}" width="900" id='rosmap'><br>
